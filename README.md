@@ -144,48 +144,125 @@ data = pd.DataFrame({
 ```
 
 **Use**: Two-Way ANOVA
-
 ---
 
-### Q10: Day & Store Location vs Sales
+## Q10: Day & Store Location vs Sales
 
-**Explanation**: Test if sales differ based on day of the week, store location, or interaction.
+**Explanation**: Test if **sales** differ based on:
+
+* The **day of the week**
+* The **store location**
+* Their **interaction**
 
 ```python
-# Columns: 'sales', 'day' (e.g., Mon, Tue), 'location' (e.g., Urban, Rural)
+import pandas as pd
+
+data_q10 = pd.DataFrame({
+    "sales": [250, 270, 265, 230, 220, 210, 260, 280, 275, 240, 230, 225],
+    "day": ["Mon", "Mon", "Tue", "Tue", "Wed", "Wed", "Mon", "Mon", "Tue", "Tue", "Wed", "Wed"],
+    "location": ["Urban", "Rural", "Urban", "Rural", "Urban", "Rural", "Urban", "Rural", "Urban", "Rural", "Urban", "Rural"]
+})
 ```
 
-**Use**: Two-Way ANOVA
+---
+
+## Q11: Exercise Type & Gender vs Heart Rate
+
+**Explanation**: Test if **heart rate** is affected by:
+
+* **Exercise type** (Cardio or Strength)
+* **Gender**
+* Their **interaction**
+
+```python
+data_q11 = pd.DataFrame({
+    "heart_rate": [140, 145, 142, 138, 135, 130, 125, 128, 120, 122, 118, 115],
+    "exercise": ["Cardio", "Cardio", "Cardio", "Cardio", "Strength", "Strength", "Strength", "Strength", "Cardio", "Cardio", "Strength", "Strength"],
+    "gender": ["M", "M", "F", "F", "M", "M", "F", "F", "M", "F", "M", "F"]
+})
+```
 
 ---
 
-### Q11: Exercise Type & Gender vs Heart Rate
+## Q12: Temperature Setting & Brand vs Washing Time
 
-**Explanation**: Test if heart rate depends on exercise type, gender, or both.
-**Use**: Two-Way ANOVA
+**Explanation**: Test if **washing time** is influenced by:
 
----
+* **Brand**
+* **Temperature setting**
+* Their **interaction**
 
-### Q12: Temperature Setting & Brand vs Washing Time
-
-**Explanation**: Test if washing time is influenced by brand, temperature setting, or both.
-**Use**: Two-Way ANOVA
-
----
-
-### Q13: Internet Plan & Age Group vs Download Speed
-
-**Explanation**: Test if speed varies based on internet plan, age group, or interaction.
-**Use**: Two-Way ANOVA
+```python
+data_q12 = pd.DataFrame({
+    "time": [45, 47, 50, 48, 42, 44, 55, 52, 54, 49, 53, 51],
+    "temperature": ["Hot", "Hot", "Cold", "Cold", "Hot", "Cold", "Hot", "Hot", "Cold", "Cold", "Hot", "Cold"],
+    "brand": ["A", "A", "A", "A", "B", "B", "B", "B", "C", "C", "C", "C"]
+})
+```
 
 ---
 
-### Q14: Food Type & Region vs Taste Rating
+## Q13: Internet Plan & Age Group vs Download Speed
 
-**Explanation**: Test if taste rating depends on food type, region, or both.
-**Use**: Two-Way ANOVA
+**Explanation**: Test if **download speed** depends on:
+
+* The **internet plan**
+* The **age group**
+* Their **interaction**
+
+```python
+data_q13 = pd.DataFrame({
+    "speed": [50, 48, 47, 52, 55, 60, 58, 57, 42, 45, 40, 43],
+    "plan": ["A", "A", "A", "B", "B", "B", "A", "B", "A", "A", "B", "B"],
+    "age_group": ["Young", "Young", "Middle", "Middle", "Old", "Old", "Old", "Young", "Middle", "Old", "Middle", "Young"]
+})
+```
 
 ---
+
+## Q14: Food Type & Region vs Taste Rating
+
+**Explanation**: Test if **taste rating** differs based on:
+
+* The **type of food**
+* The **region**
+* Their **interaction**
+
+```python
+data_q14 = pd.DataFrame({
+    "taste": [4.5, 4.7, 4.2, 4.4, 3.9, 4.0, 3.8, 4.1, 4.6, 4.3, 4.0, 3.7],
+    "food": ["Spicy", "Spicy", "Sweet", "Sweet", "Savory", "Savory", "Spicy", "Sweet", "Savory", "Spicy", "Sweet", "Savory"],
+    "region": ["Coast", "Highlands", "Coast", "Highlands", "Coast", "Highlands", "Urban", "Urban", "Urban", "Highlands", "Coast", "Urban"]
+})
+```
+
+---
+
+## Reusable Two-Way ANOVA Template
+
+Use this to run Two-Way ANOVA on any of the above datasets:
+
+```python
+import statsmodels.api as sm
+from statsmodels.formula.api import ols
+
+def run_two_way_anova(df, dependent, factor1, factor2):
+    formula = f"{dependent} ~ C({factor1}) + C({factor2}) + C({factor1}):C({factor2})"
+    model = ols(formula, data=df).fit()
+    result = sm.stats.anova_lm(model, typ=2)
+    print(result)
+```
+
+**Example usage**:
+
+```python
+run_two_way_anova(data_q10, "sales", "day", "location")
+```
+
+---
+
+
+
 
 ##  Template for Two-Way ANOVA
 
